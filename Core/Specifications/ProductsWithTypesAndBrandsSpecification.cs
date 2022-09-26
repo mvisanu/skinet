@@ -4,7 +4,7 @@ using Core.Entities;
 
 namespace Core.Specifications
 {
-  public class ProductsWithTypesAndBrandsSpecification : BaseSpecification<Product>
+    public class ProductsWithTypesAndBrandsSpecification : BaseSpecification<Product>
     {
         public ProductsWithTypesAndBrandsSpecification(ProductSpecParams productParams)
             : base(x =>
