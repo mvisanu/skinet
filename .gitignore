@@ -41,3 +41,5 @@ msbuild.wrn
 .vs/
 
 appsettings.json
+*.rdb
+*.db
