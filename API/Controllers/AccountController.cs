@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using API.Dtos;
 using API.Errors;
@@ -13,12 +8,11 @@ using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace API.Controllers
 {
-    
-    public class AccountController : BaseApiController
+
+  public class AccountController : BaseApiController
     {    
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
@@ -73,6 +67,8 @@ namespace API.Controllers
 
             user.Address = _mapper.Map<AddressDto, Address>(address);
 
+
+
             var result = await _userManager.UpdateAsync(user);
 
             if (!result.Succeeded) return BadRequest("Problem updating the user address");
@@ -106,6 +102,11 @@ namespace API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
+            if (CheckEmailExistAsync(registerDto.Email).Result.Value)
+            {
+                return new BadRequestObjectResult(new ApiValidationErrorResponse{Errors = new[]{"Email address is in used"}});
+            }
+            
             var user = new AppUser
             {
                 DisplayName = registerDto.DisplayName,
